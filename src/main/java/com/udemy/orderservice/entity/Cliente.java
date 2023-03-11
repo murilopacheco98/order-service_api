@@ -5,7 +5,6 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
 import lombok.*;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -16,7 +15,6 @@ import java.util.List;
 @AllArgsConstructor
 @Entity
 public class Cliente extends Pessoa implements Serializable {
-    @Serial
     private static final long serialVersionUID = 1L;
 
     @JsonIgnore

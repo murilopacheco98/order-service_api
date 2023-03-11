@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.validator.constraints.br.CPF;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 @Setter
@@ -16,7 +15,6 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class TecnicoDTO implements Serializable {
-    @Serial
     private static final long serialVersionUID = 1L;
     private Integer id;
     @NotBlank(message = "O campo nome é obrigatório")
