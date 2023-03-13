@@ -18,6 +18,7 @@ public class TecnicoService {
     private TecnicoRepository tecnicoRepository;
     @Autowired
     private ClienteService clienteService;
+
     public Tecnico findById(Integer id) {
         return tecnicoRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Tecnico não encontrado: " + id + "\n Tipo: " + Tecnico.class.getName()));
@@ -31,9 +32,14 @@ public class TecnicoService {
     public TecnicoDTO create(TecnicoDTO tecnicoDTO) {
         Tecnico tecnico = new Tecnico(tecnicoDTO.getNome(), tecnicoDTO.getCpf(), tecnicoDTO.getTelefone());
         clienteService.findCpf(tecnicoDTO.getCpf());
-        tecnico = tecnicoRepository.save(tecnico);
+        try {
+            tecnico = tecnicoRepository.save(tecnico);
+        } catch (Exception e) {
+            throw new DataIntegrityViolationException("Não foi possível salvar este técnico");
+        }
         return new TecnicoDTO(tecnico);
     }
+
     public TecnicoDTO update(Integer id, TecnicoDTO tecnicoDTO) {
         Tecnico tecnicoFound = findById(id);
         if (!Objects.equals(tecnicoFound.getCpf(), tecnicoDTO.getCpf())) {
@@ -43,8 +49,11 @@ public class TecnicoService {
         tecnicoFound.setNome(tecnicoDTO.getNome());
         tecnicoFound.setCpf(tecnicoDTO.getCpf());
         tecnicoFound.setTelefone(tecnicoDTO.getTelefone());
-
-        tecnicoFound = tecnicoRepository.save(tecnicoFound);
+        try {
+            tecnicoFound = tecnicoRepository.save(tecnicoFound);
+        } catch (Exception e) {
+            throw new DataIntegrityViolationException("Não foi possível salvar este técnico");
+        }
         return new TecnicoDTO(tecnicoFound);
     }
 

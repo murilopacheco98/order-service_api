@@ -21,6 +21,7 @@ public class ClienteService {
     private ClienteRepository clienteRepository;
     @Autowired
     private TecnicoRepository tecnicoRepository;
+
     public Cliente findById(Integer id) {
         return clienteRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Cliente não encontrado: " + id + "\n Tipo: " + Cliente.class.getName()));
@@ -38,24 +39,33 @@ public class ClienteService {
             throw new DataIntegrityViolationException("Cpf já cadastrado: " + cpf);
         }
     }
+
     public ClienteDTO create(ClienteDTO clienteDTO) {
         Cliente cliente = new Cliente(clienteDTO.getNome(), clienteDTO.getCpf(), clienteDTO.getTelefone());
         findCpf(clienteDTO.getCpf());
-        cliente = clienteRepository.save(cliente);
+        try {
+            cliente = clienteRepository.save(cliente);
+        } catch (Exception e) {
+            throw new DataIntegrityViolationException("Não foi possível salvar este cliente");
+        }
         return new ClienteDTO(cliente);
     }
+
     public ClienteDTO update(Integer id, ClienteDTO clienteDTO) {
-        Cliente tecnicoFound = findById(id);
-        if (!Objects.equals(tecnicoFound.getCpf(), clienteDTO.getCpf())) {
+        Cliente clienteFound = findById(id);
+        if (!Objects.equals(clienteFound.getCpf(), clienteDTO.getCpf())) {
             findCpf(clienteDTO.getCpf());
         }
 
-        tecnicoFound.setNome(clienteDTO.getNome());
-        tecnicoFound.setCpf(clienteDTO.getCpf());
-        tecnicoFound.setTelefone(clienteDTO.getTelefone());
-
-        tecnicoFound = clienteRepository.save(tecnicoFound);
-        return new ClienteDTO(tecnicoFound);
+        clienteFound.setNome(clienteDTO.getNome());
+        clienteFound.setCpf(clienteDTO.getCpf());
+        clienteFound.setTelefone(clienteDTO.getTelefone());
+        try {
+            clienteFound = clienteRepository.save(clienteFound);
+        } catch (Exception e) {
+            throw new DataIntegrityViolationException("Não foi possível salvar este cliente");
+        }
+        return new ClienteDTO(clienteFound);
     }
 
     public void delete(Integer id) {
