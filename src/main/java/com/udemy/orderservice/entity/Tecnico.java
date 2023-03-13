@@ -3,6 +3,7 @@ package com.udemy.orderservice.entity;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.Entity;
 import jakarta.persistence.OneToMany;
+import jakarta.persistence.Table;
 import lombok.*;
 
 import java.io.Serializable;
@@ -14,6 +15,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
+@Table(name = "tb_tecnico")
 public class Tecnico extends Pessoa implements Serializable {
     private static final long serialVersionUID = 1L;
 

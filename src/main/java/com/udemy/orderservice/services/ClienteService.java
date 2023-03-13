@@ -2,11 +2,10 @@ package com.udemy.orderservice.services;
 
 
 import com.udemy.orderservice.dtos.ClienteDTO;
-import com.udemy.orderservice.entity.Pessoa;
 import com.udemy.orderservice.entity.Cliente;
+import com.udemy.orderservice.entity.Tecnico;
 import com.udemy.orderservice.exceptions.ObjectNotFoundException;
 import com.udemy.orderservice.repositories.ClienteRepository;
-import com.udemy.orderservice.repositories.PessoaRepository;
 import com.udemy.orderservice.repositories.TecnicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -21,7 +20,7 @@ public class ClienteService {
     @Autowired
     private ClienteRepository clienteRepository;
     @Autowired
-    private PessoaRepository pessoaRepository;
+    private TecnicoRepository tecnicoRepository;
     public Cliente findById(Integer id) {
         return clienteRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Cliente não encontrado: " + id + "\n Tipo: " + Cliente.class.getName()));
@@ -33,8 +32,9 @@ public class ClienteService {
     }
 
     public void findCpf(String cpf) {
-        Pessoa pessoa = pessoaRepository.findByCpf(cpf);
-        if (pessoa != null) {
+        Cliente cliente = clienteRepository.findByCpf(cpf);
+        Tecnico tecnico = tecnicoRepository.findByCpf(cpf);
+        if (cliente != null || tecnico != null) {
             throw new DataIntegrityViolationException("Cpf já cadastrado: " + cpf);
         }
     }

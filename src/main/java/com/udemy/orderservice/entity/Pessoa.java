@@ -10,12 +10,13 @@ import org.hibernate.validator.constraints.br.CPF;
 
 import java.util.Objects;
 
+//@Entity
+//@Table
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Entity
-//@Table
+@MappedSuperclass
 public abstract class Pessoa {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

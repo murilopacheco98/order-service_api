@@ -1,30 +1,24 @@
 package com.udemy.orderservice.services;
 
 import com.udemy.orderservice.dtos.OrderServiceDTO;
-import com.udemy.orderservice.dtos.OrderServiceDTO;
 import com.udemy.orderservice.entity.*;
 import com.udemy.orderservice.entity.OrderService;
 import com.udemy.orderservice.enums.Prioridade;
 import com.udemy.orderservice.enums.Status;
 import com.udemy.orderservice.exceptions.ObjectNotFoundException;
 import com.udemy.orderservice.repositories.OrderServiceRepository;
-import com.udemy.orderservice.repositories.PessoaRepository;
-import com.udemy.orderservice.repositories.TecnicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
 public class OrderServiceService {
     @Autowired
     private OrderServiceRepository orderServiceRepository;
-    @Autowired
-    private PessoaRepository pessoaRepository;
     @Autowired
     private TecnicoService tecnicoService;
     @Autowired
@@ -40,12 +34,6 @@ public class OrderServiceService {
         return orderServiceList.stream().map(OrderServiceDTO::new).collect(Collectors.toList());
     }
 
-    public void findCpf(String cpf) {
-        Pessoa pessoa = pessoaRepository.findByCpf(cpf);
-        if (pessoa != null) {
-            throw new DataIntegrityViolationException("Cpf já cadastrado: " + cpf);
-        }
-    }
     public OrderServiceDTO create(OrderServiceDTO orderServiceDTO) {
         OrderService orderService = new OrderService();
 

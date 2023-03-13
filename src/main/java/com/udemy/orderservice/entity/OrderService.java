@@ -17,7 +17,7 @@ import java.time.LocalDateTime;
 //@NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@Table
+@Table(name = "tb_order_service")
 public class OrderService {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

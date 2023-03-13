@@ -1,10 +1,8 @@
 package com.udemy.orderservice.services;
 
 import com.udemy.orderservice.dtos.TecnicoDTO;
-import com.udemy.orderservice.entity.Pessoa;
 import com.udemy.orderservice.entity.Tecnico;
 import com.udemy.orderservice.exceptions.ObjectNotFoundException;
-import com.udemy.orderservice.repositories.PessoaRepository;
 import com.udemy.orderservice.repositories.TecnicoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -19,7 +17,7 @@ public class TecnicoService {
     @Autowired
     private TecnicoRepository tecnicoRepository;
     @Autowired
-    private PessoaRepository pessoaRepository;
+    private ClienteService clienteService;
     public Tecnico findById(Integer id) {
         return tecnicoRepository.findById(id)
                 .orElseThrow(() -> new ObjectNotFoundException("Tecnico não encontrado: " + id + "\n Tipo: " + Tecnico.class.getName()));
@@ -30,22 +28,16 @@ public class TecnicoService {
         return tecnicoList.stream().map(TecnicoDTO::new).collect(Collectors.toList());
     }
 
-    public void findCpf(String cpf) {
-        Pessoa pessoa = pessoaRepository.findByCpf(cpf);
-        if (pessoa != null) {
-            throw new DataIntegrityViolationException("Cpf já cadastrado: " + cpf);
-        }
-    }
     public TecnicoDTO create(TecnicoDTO tecnicoDTO) {
         Tecnico tecnico = new Tecnico(tecnicoDTO.getNome(), tecnicoDTO.getCpf(), tecnicoDTO.getTelefone());
-        findCpf(tecnicoDTO.getCpf());
+        clienteService.findCpf(tecnicoDTO.getCpf());
         tecnico = tecnicoRepository.save(tecnico);
         return new TecnicoDTO(tecnico);
     }
     public TecnicoDTO update(Integer id, TecnicoDTO tecnicoDTO) {
         Tecnico tecnicoFound = findById(id);
         if (!Objects.equals(tecnicoFound.getCpf(), tecnicoDTO.getCpf())) {
-            findCpf(tecnicoDTO.getCpf());
+            clienteService.findCpf(tecnicoDTO.getCpf());
         }
 
         tecnicoFound.setNome(tecnicoDTO.getNome());
