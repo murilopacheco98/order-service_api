@@ -19,7 +19,6 @@ package com.udemy.orderservice.cloudsql;
 import com.zaxxer.hikari.HikariConfig;
 
 public class ConnectionPoolFactory {
-
     public static HikariConfig configureConnectionPool(HikariConfig config) {
         // [START cloud_sql_postgres_servlet_limit]
         // maximumPoolSize limits the total number of concurrent connections this pool will keep. Ideal
