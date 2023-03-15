@@ -26,8 +26,8 @@ public class OrderServiceDTO implements Serializable {
     @NotBlank(message = "O campo observações é obrigatório")
     private String observacoes;
     private Integer statusId;
-    private Integer tecnicoId;
-    private Integer clienteId;
+    private TecnicoDTO tecnicoDTO;
+    private ClienteDTO clienteDTO;
 
     public OrderServiceDTO(OrderService orderService) {
         super();
@@ -37,7 +37,7 @@ public class OrderServiceDTO implements Serializable {
         prioridadeId = orderService.getPrioridadeId();
         observacoes = orderService.getObservacoes();
         statusId = orderService.getStatusId();
-        tecnicoId = orderService.getTecnico().getId();
-        clienteId = orderService.getCliente().getId();
+        tecnicoDTO = new TecnicoDTO(orderService.getTecnico());
+        clienteDTO = new ClienteDTO(orderService.getCliente());
     }
 }

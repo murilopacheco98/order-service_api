@@ -41,8 +41,8 @@ public class OrderServiceService {
         orderService.setPrioridadeId(Prioridade.toEnum(orderServiceDTO.getPrioridadeId()).getCod());
         orderService.setStatusId(Status.toEnum(orderServiceDTO.getStatusId()).getCod());
 
-        Tecnico tecnico = tecnicoService.findById(orderServiceDTO.getTecnicoId());
-        Cliente cliente = clienteService.findById(orderServiceDTO.getClienteId());
+        Tecnico tecnico = tecnicoService.findById(orderServiceDTO.getTecnicoDTO().getId());
+        Cliente cliente = clienteService.findById(orderServiceDTO.getClienteDTO().getId());
 
         orderService.setTecnico(tecnico);
         orderService.setCliente(cliente);
@@ -56,8 +56,8 @@ public class OrderServiceService {
         orderServiceFound.setPrioridadeId(Prioridade.toEnum(orderServiceDTO.getPrioridadeId()).getCod());
         orderServiceFound.setStatusId(Status.toEnum(orderServiceDTO.getStatusId()).getCod());
 
-        Tecnico tecnico = tecnicoService.findById(orderServiceDTO.getTecnicoId());
-        Cliente cliente = clienteService.findById(orderServiceDTO.getClienteId());
+        Tecnico tecnico = tecnicoService.findById(orderServiceDTO.getTecnicoDTO().getId());
+        Cliente cliente = clienteService.findById(orderServiceDTO.getClienteDTO().getId());
 
         orderServiceFound.setTecnico(tecnico);
         orderServiceFound.setCliente(cliente);

@@ -7,8 +7,7 @@ import javax.sql.DataSource;
 public class ConnectorConnectionPoolFactory extends ConnectionPoolFactory {
     private static final String INSTANCE_CONNECTION_NAME =
             System.getenv("murilo");
-    private static final String INSTANCE_UNIX_SOCKET = System.getenv("INSTANCE_UNIX_SOCKET");
-//    /cloudsql/<PROJECT-ID>:<INSTANCE-REGION>:INSTANCE-NAME>
+    private static final String INSTANCE_UNIX_SOCKET = System.getenv("osservice:southamerica-east1:murilo");
     private static final String DB_USER = System.getenv("murilo");
     private static final String DB_PASS = System.getenv("pacheco");
     private static final String DB_NAME = System.getenv("osservice");
